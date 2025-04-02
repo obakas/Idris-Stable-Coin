@@ -9,8 +9,7 @@ contract MockFailedTransfer is ERC20Burnable, Ownable {
     error DecentralizedStableCoin__BurnAmountExceedsBalance();
     error DecentralizedStableCoin__NotZeroAddress();
 
- 
-   constructor() ERC20("DecentralizedStableCoin", "DSC") Ownable(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) {}
+    constructor() ERC20("DecentralizedStableCoin", "DSC") Ownable(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) { }
     // constructor() ERC20("DecentralizedStableCoin", "DSC") { }
 
     function burn(uint256 _amount) public override onlyOwner {

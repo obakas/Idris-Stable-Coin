@@ -25,7 +25,8 @@
 pragma solidity ^0.8.28;
 
 // import { OracleLib, AggregatorV3Interface } from "./libraries/OracleLib.sol";
-import {AggregatorV3Interface} from "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import { AggregatorV3Interface } from
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import { ReentrancyGuard } from "lib/openzeppelin-contracts/contracts/utils/ReentrancyGuard.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { IdrisStablecoin } from "src/IdrisStablecoin.sol";
@@ -138,7 +139,12 @@ contract IdrisDSCengine is ReentrancyGuard {
      * @param amountDscToMint: The amount of DSC you want to mint
      * @notice This function will deposit your collateral and mint DSC in one transaction
      */
-    function depositCollateralAndMintDsc(address tokenCollateralAddress,uint256 amountCollateral, uint256 amountDscToMint)external
+    function depositCollateralAndMintDsc(
+        address tokenCollateralAddress,
+        uint256 amountCollateral,
+        uint256 amountDscToMint
+    )
+        external
     {
         depositCollateral(tokenCollateralAddress, amountCollateral);
         mintDsc(amountDscToMint);

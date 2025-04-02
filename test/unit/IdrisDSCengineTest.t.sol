@@ -175,7 +175,9 @@ contract IdrisDSCEngineTest is StdCheats, Test {
 
         uint256 expectedHealthFactor =
             dsce.calculateHealthFactor(amountToMint, dsce.getUsdValue(weth, amountCollateral));
-        vm.expectRevert(abi.encodeWithSelector(IdrisDSCengine.DSCEngine__BreaksHealthFactor.selector, expectedHealthFactor));
+        vm.expectRevert(
+            abi.encodeWithSelector(IdrisDSCengine.DSCEngine__BreaksHealthFactor.selector, expectedHealthFactor)
+        );
         dsce.depositCollateralAndMintDsc(weth, amountCollateral, amountToMint);
         vm.stopPrank();
     }
@@ -233,7 +235,9 @@ contract IdrisDSCEngineTest is StdCheats, Test {
         vm.startPrank(user);
         uint256 expectedHealthFactor =
             dsce.calculateHealthFactor(amountToMint, dsce.getUsdValue(weth, amountCollateral));
-        vm.expectRevert(abi.encodeWithSelector(IdrisDSCengine.DSCEngine__BreaksHealthFactor.selector, expectedHealthFactor));
+        vm.expectRevert(
+            abi.encodeWithSelector(IdrisDSCengine.DSCEngine__BreaksHealthFactor.selector, expectedHealthFactor)
+        );
         dsce.mintDsc(amountToMint);
         vm.stopPrank();
     }
@@ -321,7 +325,6 @@ contract IdrisDSCEngineTest is StdCheats, Test {
         assertEq(userBalanceAfterRedeem, 0);
         vm.stopPrank();
     }
-
 
     function testEmitCollateralRedeemedWithCorrectArgs() public depositedCollateral {
         vm.expectEmit(true, true, true, true, address(dsce));
@@ -488,22 +491,22 @@ contract IdrisDSCEngineTest is StdCheats, Test {
     ///////////////////////////////////
     // View & Pure Function Tests //
     //////////////////////////////////
-    function testGetCollateralTokenPriceFeed() public view{
+    function testGetCollateralTokenPriceFeed() public view {
         address priceFeed = dsce.getCollateralTokenPriceFeed(weth);
         assertEq(priceFeed, ethUsdPriceFeed);
     }
 
-    function testGetCollateralTokens() public view{
+    function testGetCollateralTokens() public view {
         address[] memory collateralTokens = dsce.getCollateralTokens();
         assertEq(collateralTokens[0], weth);
     }
 
-    function testGetMinHealthFactor() public view{
+    function testGetMinHealthFactor() public view {
         uint256 minHealthFactor = dsce.getMinHealthFactor();
         assertEq(minHealthFactor, MIN_HEALTH_FACTOR);
     }
 
-    function testGetLiquidationThreshold() public view{
+    function testGetLiquidationThreshold() public view {
         uint256 liquidationThreshold = dsce.getLiquidationThreshold();
         assertEq(liquidationThreshold, LIQUIDATION_THRESHOLD);
     }
@@ -533,12 +536,12 @@ contract IdrisDSCEngineTest is StdCheats, Test {
         assertEq(collateralValue, expectedCollateralValue);
     }
 
-    function testGetDsc() public view{
+    function testGetDsc() public view {
         address dscAddress = dsce.getDsc();
         assertEq(dscAddress, address(dsc));
     }
 
-    function testLiquidationPrecision() public view{
+    function testLiquidationPrecision() public view {
         uint256 expectedLiquidationPrecision = 100;
         uint256 actualLiquidationPrecision = dsce.getLiquidationPrecision();
         assertEq(actualLiquidationPrecision, expectedLiquidationPrecision);
