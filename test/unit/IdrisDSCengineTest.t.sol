@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.28;
+// SPDX-License-Identifier: MIT
 
+pragma solidity ^0.8.28;
 
 import { DeployIdrisDSC } from "script/DeployIdrisDSC.s.sol";
 import { IdrisDSCengine } from "src/IdrisDSCengine.sol";
@@ -15,7 +15,7 @@ import { MockFailedTransfer } from "test/mocks/MockFailedTransfer.sol";
 import { Test, console } from "forge-std/Test.sol";
 import { StdCheats } from "forge-std/StdCheats.sol";
 
-contract IdrisDSCengineTest is StdCheats, Test {
+contract IdrisDSCEngineTest is StdCheats, Test {
     event CollateralRedeemed(address indexed redeemFrom, address indexed redeemTo, address token, uint256 amount); // if
         // redeemFrom != redeemedTo, then it was liquidated
 
@@ -80,18 +80,18 @@ contract IdrisDSCengineTest is StdCheats, Test {
         new IdrisDSCengine(tokenAddresses, feedAddresses, address(dsc));
     }
 
-    // //////////////////
-    // // Price Tests //
-    // //////////////////
+    //////////////////
+    // Price Tests //
+    //////////////////
 
-    function testGetTokenAmountFromUsd() public view{
+    function testGetTokenAmountFromUsd() public {
         // If we want $100 of WETH @ $2000/WETH, that would be 0.05 WETH
         uint256 expectedWeth = 0.05 ether;
         uint256 amountWeth = dsce.getTokenAmountFromUsd(weth, 100 ether);
         assertEq(amountWeth, expectedWeth);
     }
 
-    function testGetUsdValue() public view {
+    function testGetUsdValue() public {
         uint256 ethAmount = 15e18;
         // 15e18 ETH * $2000/ETH = $30,000e18
         uint256 expectedUsd = 30_000e18;
@@ -163,9 +163,9 @@ contract IdrisDSCengineTest is StdCheats, Test {
         assertEq(expectedDepositedAmount, amountCollateral);
     }
 
-    // ///////////////////////////////////////
-    // // depositCollateralAndMintDsc Tests //
-    // ///////////////////////////////////////
+    ///////////////////////////////////////
+    // depositCollateralAndMintDsc Tests //
+    ///////////////////////////////////////
 
     function testRevertsIfMintedDscBreaksHealthFactor() public {
         (, int256 price,,,) = MockV3Aggregator(ethUsdPriceFeed).latestRoundData();
@@ -193,9 +193,9 @@ contract IdrisDSCengineTest is StdCheats, Test {
         assertEq(userBalance, amountToMint);
     }
 
-    // ///////////////////////////////////
-    // // mintDsc Tests //
-    // ///////////////////////////////////
+    ///////////////////////////////////
+    // mintDsc Tests //
+    ///////////////////////////////////
     // // This test needs it's own custom setup
     // function testRevertsIfMintFails() public {
     //     // Arrange - Setup
@@ -246,9 +246,9 @@ contract IdrisDSCengineTest is StdCheats, Test {
         assertEq(userBalance, amountToMint);
     }
 
-    // ///////////////////////////////////
-    // // burnDsc Tests //
-    // ///////////////////////////////////
+    ///////////////////////////////////
+    // burnDsc Tests //
+    ///////////////////////////////////
 
     function testRevertsIfBurnAmountIsZero() public {
         vm.startPrank(user);
@@ -275,9 +275,9 @@ contract IdrisDSCengineTest is StdCheats, Test {
         assertEq(userBalance, 0);
     }
 
-    // ///////////////////////////////////
-    // // redeemCollateral Tests //
-    // //////////////////////////////////
+    ///////////////////////////////////
+    // redeemCollateral Tests //
+    //////////////////////////////////
 
     // // this test needs it's own setup
     // function testRevertsIfTransferFails() public {
@@ -330,9 +330,9 @@ contract IdrisDSCengineTest is StdCheats, Test {
         dsce.redeemCollateral(weth, amountCollateral);
         vm.stopPrank();
     }
-    // ///////////////////////////////////
-    // // redeemCollateralForDsc Tests //
-    // //////////////////////////////////
+    ///////////////////////////////////
+    // redeemCollateralForDsc Tests //
+    //////////////////////////////////
 
     function testMustRedeemMoreThanZero() public depositedCollateralAndMintedDsc {
         vm.startPrank(user);
@@ -354,9 +354,9 @@ contract IdrisDSCengineTest is StdCheats, Test {
         assertEq(userBalance, 0);
     }
 
-    // ////////////////////////
-    // // healthFactor Tests //
-    // ////////////////////////
+    ////////////////////////
+    // healthFactor Tests //
+    ////////////////////////
 
     function testProperlyReportsHealthFactor() public depositedCollateralAndMintedDsc {
         uint256 expectedHealthFactor = 100 ether;
@@ -380,9 +380,9 @@ contract IdrisDSCengineTest is StdCheats, Test {
         assert(userHealthFactor == 0.9 ether);
     }
 
-    // ///////////////////////
-    // // Liquidation Tests //
-    // ///////////////////////
+    ///////////////////////
+    // Liquidation Tests //
+    ///////////////////////
 
     // // This test needs it's own setup
     // function testMustImproveHealthFactorOnLiquidation() public {
@@ -485,25 +485,25 @@ contract IdrisDSCengineTest is StdCheats, Test {
         assertEq(userDscMinted, 0);
     }
 
-    // ///////////////////////////////////
-    // // View & Pure Function Tests //
-    // //////////////////////////////////
+    ///////////////////////////////////
+    // View & Pure Function Tests //
+    //////////////////////////////////
     function testGetCollateralTokenPriceFeed() public view{
         address priceFeed = dsce.getCollateralTokenPriceFeed(weth);
         assertEq(priceFeed, ethUsdPriceFeed);
     }
 
-    function testGetCollateralTokens() public view {
+    function testGetCollateralTokens() public view{
         address[] memory collateralTokens = dsce.getCollateralTokens();
         assertEq(collateralTokens[0], weth);
     }
 
-    function testGetMinHealthFactor() public view {
+    function testGetMinHealthFactor() public view{
         uint256 minHealthFactor = dsce.getMinHealthFactor();
         assertEq(minHealthFactor, MIN_HEALTH_FACTOR);
     }
 
-    function testGetLiquidationThreshold() public view {
+    function testGetLiquidationThreshold() public view{
         uint256 liquidationThreshold = dsce.getLiquidationThreshold();
         assertEq(liquidationThreshold, LIQUIDATION_THRESHOLD);
     }
@@ -538,7 +538,7 @@ contract IdrisDSCengineTest is StdCheats, Test {
         assertEq(dscAddress, address(dsc));
     }
 
-    function testLiquidationPrecision() public view {
+    function testLiquidationPrecision() public view{
         uint256 expectedLiquidationPrecision = 100;
         uint256 actualLiquidationPrecision = dsce.getLiquidationPrecision();
         assertEq(actualLiquidationPrecision, expectedLiquidationPrecision);
