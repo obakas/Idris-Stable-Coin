@@ -28,7 +28,7 @@ export default function Header({
               className="h-8 w-auto"
             />
           ) : (
-            <h1 className="text-xl font-bold text-gray-900">{appName}</h1>
+            <h1 className="text-xl font-bold text-purple-900">{appName}</h1>
           )}
           
           <a
@@ -36,7 +36,7 @@ export default function Header({
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub repository"
-            className="text-gray-500 hover:text-gray-700 transition-colors"
+            className="text-purple-900 hover:text-gray-700 transition-colors"
           >
             <FaGithub size={24} />
           </a>

@@ -132,7 +132,7 @@ export default function UserDashboard() {
 
     return (
         <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8">User Dashboard</h1>
+            <h1 className="text-3xl font-bold text-purple-700 mb-8">User Dashboard</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 {/* DSC Balance Card */}
