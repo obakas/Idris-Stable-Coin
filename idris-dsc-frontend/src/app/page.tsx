@@ -1,11 +1,15 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Header from "../component/Header";
-// import FundIdrisForm from "@/components/FundIdrisForm";
+import DappDashboard from "@/component/DappDashboard";
+import UserDashboard from "@/component/UserDashboard";
 
 export default function Home() {
   return(
     <div>
-      hi
+      <UserDashboard 
+      />
+      {/* <DappDashboard
+      /> */}
     </div>
   );
 }
